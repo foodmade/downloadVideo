@@ -19,6 +19,10 @@ const getSource = function () {
         },(err, response, body) => {
             if (!err && response.statusCode === 200) {
                 var downLoadUrl = JSON.parse(body).responseBody;
+                if(!downLoadUrl){
+                    reject("wait.....");
+                    return;
+                }
                 log.info(`获取到的下载地址:${downLoadUrl}`);
                 resolve(downLoadUrl)
             }else{
@@ -28,6 +32,12 @@ const getSource = function () {
         })
     })
 };
+
+// const getSource = function () {
+//     return new Promise((resolve, reject) => {
+//         resolve("https://m3u8.cnkamax.com/useruploadfiles/8d0bc987de755a40cb0733bef13f5f24/8d0bc987de755a40cb0733bef13f5f24.m3u8?md5=5X47cUVOwZHgF2DL7wIbtQ");
+//     })
+// };
 
 //下载index.m4u8索引文件
 const downM3u8Index = function (url) {

@@ -8,7 +8,7 @@ module.exports = {
     work:{
         taskTimeElapse: 5000,
         taskReq:{
-            url:"http://task.crawler.com:8081/getDownloadTask.do"
+            url:"http://task.crawler.com:8089/api/getDownloadTask"
         }
     },
     log:{

@@ -12,11 +12,14 @@ module.exports = function(opt){
     var arr = opt.arr || []; //所有 ts的文件名或者地址
     var host = opt.host || ""; //下载 ts 的 域名，如果 arr 里面的元素已经包含，可以不传
     var outputName = opt.name ||  `${(new Date()).getTime()}.mp4`; //导出视频的名称
-     
-    const tsFile = path.join(__dirname,`../source/${arr[0].split(".")[0]}`,);
-    createDir(tsFile);//递归创建文件
+
+    log.debug(`Ts列表：${JSON.stringify(arr)}`);
+
+    const tsFile = path.join(__dirname,`../source/${utils.randomBytes(10)}`,);
+
     log.info(`本次资源临时文件: ${tsFile}`);
-     
+    createDir(tsFile);//递归创建文件
+
     const resultDir = path.join(__dirname,`../result`);
     createDir(resultDir);//递归创建文件
     const resultFile = path.join(resultDir,outputName);
@@ -27,7 +30,8 @@ module.exports = function(opt){
         log.info(`Control status:${utils.getWorkStatus()}`);
         if(arr.length > 0){
             var u =  arr.shift();
-            var url = host + u;
+            // var url = host + u;
+            var url = u;
             log.info(`progress---: ${url}`);
             down(url);
         }else{
