@@ -5,6 +5,7 @@ const child_process = require('child_process');
 const fsextra       = require('fs-extra');
 const utils         = require('./utils');
 const log           = require('./log');
+const pushManage    = require('./pushManage');
 
 
 module.exports = function(opt){
@@ -12,6 +13,7 @@ module.exports = function(opt){
     var arr = opt.arr || []; //所有 ts的文件名或者地址
     var host = opt.host || ""; //下载 ts 的 域名，如果 arr 里面的元素已经包含，可以不传
     var outputName = opt.name ||  `${(new Date()).getTime()}.mp4`; //导出视频的名称
+    var taskData = opt.taskData; //下载任务体
 
     log.debug(`Ts列表：${JSON.stringify(arr)}`);
 
@@ -32,13 +34,13 @@ module.exports = function(opt){
             var u =  arr.shift();
             // var url = host + u;
             var url = u;
-            log.info(`progress---: ${url}`);
+            log.debug(`progress---: ${url}`);
             down(url);
         }else{
             //下载完成
             log.info("下载完成--开始生成配置");
             localPath.unshift("ffconcat version 1.0");
-            fs.writeFileSync(path.join(tsFile,"./input.txt"), localPath.join("\n") , undefined, 'utf-8')
+            fs.writeFileSync(path.join(tsFile,"./input.txt"), localPath.join("\n") , undefined, 'utf-8');
              
             //开始依赖配置合成
             log.info("开始合成-----");
@@ -55,7 +57,12 @@ module.exports = function(opt){
                         }else{
                             log.info('删除临时文件成功!')
                         }
-                        
+                        //添加待发布队列
+                        new pushManage().addQueue({
+                            filePath:resultFile,
+                            title:taskData.title,
+                            tags:taskData.tags
+                        });
                         utils.stopWork();
                     });
                 }
@@ -102,4 +109,4 @@ module.exports = function(opt){
         fs.existsSync(myPath) == false && mkdirs(myPath);
     }
 
-}
+};

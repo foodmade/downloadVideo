@@ -1,8 +1,8 @@
-const fs  = require("fs");
-const downUtils = require("./down");
-const utils = require('./utils');
-const log = require('./log');
-const config = require('./config');
+const fs          = require("fs");
+const downUtils   = require("./down");
+const utils       = require('./utils');
+const log         = require('./log');
+const config      = require('./config');
 
 const Promise    = require('es6-promise').Promise;
 const request    = require('request');
@@ -18,16 +18,16 @@ const getSource = function () {
             headers: utils.headers
         },(err, response, body) => {
             if (!err && response.statusCode === 200) {
-                var downLoadUrl = JSON.parse(body).responseBody;
-                if(!downLoadUrl){
+                var downloadTask = JSON.parse(body).responseBody;
+                if(!downloadTask){
                     reject("wait.....");
                     return;
                 }
-                log.info(`获取到的下载地址:${downLoadUrl}`);
-                resolve(downLoadUrl)
+                log.info(`获取到的下载任务:${JSON.stringify(downloadTask)}`);
+                resolve(JSON.parse(downloadTask));
             }else{
                 log.info(`获取下载地址失败 error:${JSON.stringify(err)}`);
-                reject(JSON.stringify(err))
+                reject(JSON.stringify(err));
             }
         })
     })
@@ -35,13 +35,14 @@ const getSource = function () {
 
 // const getSource = function () {
 //     return new Promise((resolve, reject) => {
-//         resolve("https://m3u8.cnkamax.com/useruploadfiles/8d0bc987de755a40cb0733bef13f5f24/8d0bc987de755a40cb0733bef13f5f24.m3u8?md5=5X47cUVOwZHgF2DL7wIbtQ");
+//         resolve("https://m3u8.cnkamax.com/useruploadfiles/921aa97618d3cdd79af056438fe40632/921aa97618d3cdd79af056438fe40632.m3u8?md5=LdO6Jo9hcctAxodzQ7zBgw&expires=1578566578&start=0&duration=30&via=kekaoyun");
 //     })
 // };
 
 //下载index.m4u8索引文件
-const downM3u8Index = function (url) {
+const downM3u8Index = function (taskData) {
     return new Promise((resolve, reject) => {
+        const url = taskData.playUrl;
         log.info(`开始下载m3u8索引文件. url:${url}`);
         request({
             url:url,
@@ -55,7 +56,8 @@ const downM3u8Index = function (url) {
                 log.info(`索引文件写入成功`);
                 resolve({
                     tmpIndexPath:tmpIndexPath,
-                    host:host
+                    host:host,
+                    taskData:taskData
                 });
             }else{
                 log.info("下载索引文件错误",err);
@@ -78,7 +80,8 @@ const parserM3u8Index = function (resolveObj) {
         });
         resolve({
             arr:arr,
-            host:host
+            host:host,
+            taskData:resolveObj.taskData
         })
     })
 };

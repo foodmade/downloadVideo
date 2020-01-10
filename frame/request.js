@@ -33,5 +33,22 @@ module.exports = {
                 logger.warn(`Method:[GET]. Status:[Failed]. exMsg:${err}`);
             }
         })
+    },
+
+    /**
+     * 上传文件
+     */
+    upload: function (options,callback,errback) {
+        request.post({
+            url: options.url,
+            formData: options.formData,
+            headers: options.headers
+        },function (error,response,body) {
+            if(error){
+                errback(error);
+            }else{
+                callback(body);
+            }
+        })
     }
 };
