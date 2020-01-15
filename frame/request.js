@@ -4,20 +4,20 @@ const config   = require('./config');
 
 
 module.exports = {
-    post: function(url,data,callback,errback){
+    post: function(options,callback,errback){
         request({
-            url: url,
+            url: options.url,
             method: "POST",
             json: true,
-            headers: config.wallet.callback.headers,
-            body: data
+            body: options.formData,
+            headers:options.headers
         }, (error, response, body) => {
             if (!error && response.statusCode === 200) {
                 logger.info(`Method:[POST]. Status:[Successful]. rspBody:${JSON.stringify(body)}`);
                 callback(body);
             }else{
-                logger.warn(`Method:[POST]. Status:[Failed]. exMsg:${JSON.stringify(error)}`);
-                errback();
+                logger.warn(`Method:[POST]. Status:[Failed]. exMsg:${JSON.stringify(response)}`);
+                errback(error);
             }
         }); 
     },
@@ -50,5 +50,5 @@ module.exports = {
                 callback(body);
             }
         })
-    }
+    },
 };

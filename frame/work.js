@@ -4,9 +4,9 @@ const utils       = require('./utils');
 const log         = require('./log');
 const config      = require('./config');
 
-const Promise    = require('es6-promise').Promise;
-const request    = require('request');
-const path       = require('path');
+const Promise     = require('es6-promise').Promise;
+const request     = require('request');
+const path        = require('path');
 
 
 //从服务器端获取下载地址
@@ -90,7 +90,6 @@ const down = function(resolveObj){
     log.info(`解析ts下载地址成功 \n 文件个数:${resolveObj.arr.length} \n Host:${resolveObj.host} \n 开始下载ts文件.....`);
     if(resolveObj.arr.length > 100){
         log.info(`跳过大文件`);
-        utils.stopWork();
         return;
     }
     downUtils(resolveObj);

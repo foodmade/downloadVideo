@@ -29,7 +29,7 @@ module.exports = function(opt){
     //开始下载ts文件
     load();
     function load(){
-        log.info(`Control status:${utils.getWorkStatus()}`);
+        log.debug(`Control status:${utils.getWorkStatus()}`);
         if(arr.length > 0){
             var u =  arr.shift();
             // var url = host + u;
@@ -47,6 +47,7 @@ module.exports = function(opt){
             child_process.exec(`cd ${tsFile} &&  ffmpeg -i input.txt -acodec copy -vcodec copy -absf aac_adtstoasc ${resultFile}`,function(error, stdout, stderr){
                 if(error){
                     console.error("合成失败---",error);
+                    utils.stopWork();
                 }else{
                     console.error("合成成功--",stdout);
                 
@@ -55,7 +56,7 @@ module.exports = function(opt){
                         if (err) {
                             console.error("删除临时文件失败",err);
                         }else{
-                            log.info('删除临时文件成功!')
+                            log.info('删除临时文件成功!');
                         }
                         //添加待发布队列
                         new pushManage().addQueue({

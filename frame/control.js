@@ -33,12 +33,20 @@ module.exports = {
     /**
      * 线程启动函数
      */
-    start: function(){
+    startTimer: function(){
+        var THIS_MODULE = this;
+        setInterval(function(){
+            THIS_MODULE.workStart();
+        },config.work.taskTimeElapse);
+    },
+    /**
+     * 推送线程启动
+     */
+    pushStartTimer: function () {
         var THIS_MODULE = this;
         setInterval(function(){
             THIS_MODULE.pushStart();
-            THIS_MODULE.workStart();
-        },config.work.taskTimeElapse);
+        },config.work.pushTaskTimeElapse);
     }
 };
 
