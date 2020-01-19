@@ -13,10 +13,10 @@ module.exports = {
             headers:options.headers
         }, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-                logger.info(`Method:[POST]. Status:[Successful]. rspBody:${JSON.stringify(body)}`);
+                logger.debug(`Method:[POST]. Status:[Successful]. rspBody:${JSON.stringify(body)}`);
                 callback(body);
             }else{
-                logger.warn(`Method:[POST]. Status:[Failed]. exMsg:${JSON.stringify(response)}`);
+                logger.err(`Method:[POST]. Status:[Failed]. exMsg:${JSON.stringify(response)}`);
                 errback(error);
             }
         }); 

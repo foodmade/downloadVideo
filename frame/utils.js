@@ -1,5 +1,5 @@
-var crypto = require('crypto');
-var log    = require('./log');
+const crypto   = require('crypto');
+const log      = require('./log');
 
 /**
  * 获取随机数

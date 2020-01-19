@@ -49,12 +49,22 @@ class jedis{
     }
 
     /**
-     * 随机返回集合中的一个元素
+     * 随机返回集合中的一个元素并删除
      * @param key
      * @returns {*}
      */
     async spop(key){
         return this.jedisClient.spopAsync(key).then(function (value) {
+            return value;
+        })
+    }
+
+    /**
+     * 随机返回集合中的一个元素
+     * @returns {Promise<void>}
+     */
+    async srandmember(key){
+        return this.jedisClient.srandmemberAsync(key).then(function (value) {
             return value;
         })
     }
@@ -92,6 +102,15 @@ class jedis{
         return this.jedisClient.getAsync(key).then(function(value) {
             return value;
         });
+    }
+
+    /**
+     * Delete key.
+     * @param key
+     * @returns {Promise<*>}
+     */
+    async del(key){
+        return this.jedisClient.delAsync(key);
     }
 
 }

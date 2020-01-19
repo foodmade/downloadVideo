@@ -1,15 +1,20 @@
-var _LOG_LEVEL_ERROR = 'error';
-var _LOG_LEVEL_WARNING = 'warn';
-var _LOG_LEVEL_INFO = 'info';
-var _LOG_LEVEL_DEBUG = 'debug';
+const _LOG_LEVEL_ERROR   = 'error';
+const _LOG_LEVEL_WARNING = 'warn';
+const _LOG_LEVEL_INFO    = 'info';
+const _LOG_LEVEL_DEBUG   = 'debug';
 
+const accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9';
+
+const apiHost = 'http://172.31.17.12:9090';
 
 module.exports = {
     work:{
         //Download thread execut await time.
         taskTimeElapse: 1000,
         //Commit push task execute thread await time elapse.
-        pushTaskTimeElapse: 30000,
+        pushTaskTimeElapse: 5000,
+        //Refresh token execute thread time elapse.
+        refreshTokenElapse: 1000 * 60 * 60,
         //Fetch download video task.
         taskReq:{
             url:"http://task.crawler.com:8089/api/getDownloadTask"
@@ -17,25 +22,35 @@ module.exports = {
         //Commit push task status.
         pushTask:{
             url:"http://task.crawler.com:8089/api/commitTaskStatus"
+        },
+        //Login api.
+        loginTask:{
+            url: apiHost + '/porter/security/open/login',
+            headers:{
+                'Accept':accept
+            },
+            formData:{
+                loginUserName:'',
+                password:''
+            }
         }
     },
     //Push video request options.
     push:{
         options:{
             upload: {
-                url:'http://172.31.17.12:9090/porter/file/upload/file',
-                // url:'http://127.0.0.1:9090/porter/file/upload/file',
+                url: apiHost + '/porter/file/upload/file',
                 formData:{
                     file:'',
                     fileType:0,
                 },
                 headers:{
-                    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-                    'token':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiMTMxNCIsIjExRTYxMzA1MTY0NDhCOUI1REJFRUUyOTBBREUzM0ZBIiwiMTU3ODk5Njk0MTEwMSJdLCJleHAiOjE1ODA0NjgxNzB9.8LAtjiOnGwEEm1YHSZfn2uHYuX8p2hjSvydkQD--uUU'
+                    Accept:accept,
+                    token:''
                 }
             },
             save:{
-                url:'http://172.31.17.12:9090/porter/video/add',
+                url: apiHost + '/porter/video/add',
                 formData:{
                     title:'',
                     timeLen:1000,
@@ -44,8 +59,8 @@ module.exports = {
                     tags:''
                 },
                 headers:{
-                    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-                    'token':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiMTMxNCIsIjExRTYxMzA1MTY0NDhCOUI1REJFRUUyOTBBREUzM0ZBIiwiMTU3ODk5Njk0MTEwMSJdLCJleHAiOjE1ODA0NjgxNzB9.8LAtjiOnGwEEm1YHSZfn2uHYuX8p2hjSvydkQD--uUU'
+                    Accept:accept,
+                    token:''
                 }
             }
         }

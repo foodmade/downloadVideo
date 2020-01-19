@@ -1,12 +1,15 @@
 const jedis = require('./jedis');
 const Const = require('./const');
+const tokenManage = require('./tokenManage');
+const FFMPEGOperation = require('./FFMPEGOperation');
 
 
-async function testRedis() {
-    var redis = new jedis();
-     var res = await redis.smembers('PUSH_TASK_QUEUE');
-    console.log('获取到的值:' + JSON.stringify(res));
+async function test() {
 
+    const ffmpegOperation = new FFMPEGOperation();
+    let videoLen = await ffmpegOperation.getVideoTotalDuration("D:\\git_project\\downloadVideo\\result\\638456893722992640.mp4");
+
+    console.log('视频时长：'+videoLen);
 }
 
-testRedis();
+test();
