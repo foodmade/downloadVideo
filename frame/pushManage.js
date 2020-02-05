@@ -144,7 +144,7 @@ class pushManage{
     }
 
     async log(){
-        var res = await this.redis.smembers(Const._PUSH_TASK_QUEUE);
+        let res = await this.redis.smembers(Const._PUSH_TASK_QUEUE);
         logger.debug(`Queue detail:[${JSON.stringify(res)}]`);
     }
 }
