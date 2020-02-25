@@ -3,9 +3,9 @@ const fs            = require("fs");
 const path          = require("path");
 const child_process = require('child_process');
 const fsextra       = require('fs-extra');
-const utils         = require('./utils');
-const log           = require('./log');
-const pushManage    = require('./pushManage');
+const utils         = require('./tools/utils');
+const log           = require('./config/log');
+const pushManage    = require('./manage/pushManage');
 
 
 module.exports = function(opt){

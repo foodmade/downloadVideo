@@ -1,8 +1,8 @@
 const control = require('./frame/control');
 
-const download = 'download';
+const ts = 'ts';
 const push = 'push';
-const commandArgs = [download,push];
+const commandArgs = [ts,push];
 
 process.on('uncaughtException', function (err) {
     //打印出错误
@@ -26,9 +26,9 @@ if(args && args.length > 0){
     });
     //根据参数启动对应线程
     args.forEach(function (arg,index,array) {
-        if(download === arg){
+        if(ts === arg){
             //下载器定时任务
-            control.startTimer();
+            control.startDownloadTsTimer();
         }
         if(push === arg){
             //推送视频定时任务
@@ -36,7 +36,7 @@ if(args && args.length > 0){
         }
     })
 }else{
-    control.startTimer();
+    control.startDownloadTsTimer();
     control.pushStartTimer();
 }
 control.refreshTokenTimer();

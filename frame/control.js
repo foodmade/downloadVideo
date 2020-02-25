@@ -1,9 +1,10 @@
 const work        = require('./work');
-const log         = require('./log');
-const config      = require('./config');
-const utils       = require('./utils');
-const pushManager = require('./pushManage');
-const tokenManage = require('./tokenManage');
+const log         = require('./config/log');
+const config      = require('./config/config');
+const utils       = require('./tools/utils');
+const pushManager = require('./manage/pushManage');
+const tokenManage = require('./manage/tokenManage');
+const downloadIndex = require('./manage/downloadIndexManage');
 
 module.exports = {
     init: function () {
@@ -16,7 +17,7 @@ module.exports = {
     /**
      * 下载器线程
      */
-    workStart: function () {
+    downloadWorkStart: function () {
         if(utils.getWorkStatus()){
             log.debug(`Work is running.......`);
             return;
@@ -42,11 +43,11 @@ module.exports = {
     /**
      * 线程启动函数
      */
-    startTimer: function(){
+    startDownloadTsTimer: function(){
         log.info(`Start download thread.`);
         var THIS_MODULE = this;
         setInterval(function(){
-            THIS_MODULE.workStart();
+            THIS_MODULE.downloadWorkStart();
         },config.work.taskTimeElapse);
     },
     /**
@@ -69,7 +70,7 @@ module.exports = {
         setInterval(function(){
             THIS_MODULE.refreshToken();
         },config.work.refreshTokenElapse);
-    }
+    },
 };
 
 

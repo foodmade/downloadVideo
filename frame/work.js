@@ -1,8 +1,8 @@
 const fs          = require("fs");
 const downUtils   = require("./down");
-const utils       = require('./utils');
-const log         = require('./log');
-const config      = require('./config');
+const utils       = require('./tools/utils');
+const log         = require('./config/log');
+const config      = require('./config/config');
 
 const Promise     = require('es6-promise').Promise;
 const request     = require('request');

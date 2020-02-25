@@ -1,7 +1,7 @@
-const request = require('./request');
-const utils   = require('./utils');
-const config  = require('./config');
-const log     = require('./log');
+const request = require('./tools/request');
+const utils   = require('./tools/utils');
+const config  = require('./config/config');
+const log     = require('./config/log');
 
 class pushTask{
 

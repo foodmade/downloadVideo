@@ -1,12 +1,12 @@
-const request     = require('./request');
-const config      = require('./config');
-const logger      = require('./log');
+const request     = require('../tools/request');
+const config      = require('../config/config');
+const logger      = require('../config/log');
 const fs          = require('fs');
-const jedis       = require('./jedis');
-const Const       = require('./const');
-const pushTask    = require('./pushTask');
+const jedis       = require('../tools/jedis');
+const Const       = require('../tools/const');
+const pushTask    = require('../pushTask');
 const tokenManage = require('./tokenManage');
-const ffmpegOperation = require('./FFMPEGOperation');
+const ffmpegOperation = require('../tools/FFMPEGOperation');
 
 class pushManage{
 

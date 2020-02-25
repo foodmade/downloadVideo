@@ -1,6 +1,6 @@
 const redis      = require("redis");
-const config     = require('./config');
-const logger     = require('./log');
+const config     = require('../config/config');
+const logger     = require('../config/log');
 const Promise    = require('es6-promise').Promise;
 
 const bluebird   = require('bluebird');
