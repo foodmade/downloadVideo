@@ -12,7 +12,7 @@ module.exports = {
         //Download thread execut await time.
         taskTimeElapse: 1000,
         //Commit push task execute thread await time elapse.
-        pushTaskTimeElapse: 5000,
+        pushTaskTimeElapse: 20000,
         //Refresh token execute thread time elapse.
         refreshTokenElapse: 1000 * 60 * 60,
         //Download m3u8 index sources thread await time.

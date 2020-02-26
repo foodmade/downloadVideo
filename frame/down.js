@@ -81,7 +81,7 @@ module.exports = function(opt){
         localPath.push(`file ${nme}`); //缓存本地路径，用来合成
          
        try{
-            request(url, (err, response, body) => {
+            request(url,{timeout:10000}, (err, response, body) => {
                 if (err ) {
                     localPath.pop();
                 }

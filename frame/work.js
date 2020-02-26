@@ -44,7 +44,7 @@ const downM3u8Index = function (taskData) {
     return new Promise((resolve, reject) => {
         const url = taskData.playUrl;
         log.info(`开始下载m3u8索引文件. url:${url}`);
-        request(url,(err, response, body) => {
+        request(url,{timeout:10000},(err, response, body) => {
             if (!err && response.statusCode === 200) {
                 log.info(`索引文件请求成功,准备写入`);
                 var tmpIndexPath = path.join(__dirname,'../index',utils.randomBytes(10) + '.m3u8');
