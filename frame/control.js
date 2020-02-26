@@ -4,7 +4,6 @@ const config      = require('./config/config');
 const utils       = require('./tools/utils');
 const pushManager = require('./manage/pushManage');
 const tokenManage = require('./manage/tokenManage');
-const downloadIndex = require('./manage/downloadIndexManage');
 
 module.exports = {
     init: function () {

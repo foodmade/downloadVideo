@@ -44,10 +44,7 @@ const downM3u8Index = function (taskData) {
     return new Promise((resolve, reject) => {
         const url = taskData.playUrl;
         log.info(`开始下载m3u8索引文件. url:${url}`);
-        request({
-            url:url,
-            headers:utils.headers
-        },(err, response, body) => {
+        request(url,(err, response, body) => {
             if (!err && response.statusCode === 200) {
                 log.info(`索引文件请求成功,准备写入`);
                 var tmpIndexPath = path.join(__dirname,'../index',utils.randomBytes(10) + '.m3u8');
@@ -76,8 +73,9 @@ const parserM3u8Index = function (resolveObj) {
         var source = fs.readFileSync(indexPath,"utf-8");
         var arr  = source.split("\n");
         arr = arr.filter((item)=>{
-            return item.match(/\.ts$/);
+            return item.match(/\.ts/);
         });
+        log.info(`分割数据：${JSON.stringify(arr)}`);
         resolve({
             arr:arr,
             host:host,
