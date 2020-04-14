@@ -32,16 +32,16 @@ module.exports = function(opt){
         log.debug(`Control status:${utils.getWorkStatus()}`);
         if(arr.length > 0){
             var u =  arr.shift();
-            // var url = host + u;
-            var url = u;
-            log.debug(`progress---: ${url}`);
+            var url = host + u;
+            // var url = u;
+            log.info(`progress---: ${url}`);
             down(url);
         }else{
             //下载完成
             log.info("下载完成--开始生成配置");
             localPath.unshift("ffconcat version 1.0");
             fs.writeFileSync(path.join(tsFile,"./input.txt"), localPath.join("\n") , undefined, 'utf-8');
-             
+
             //开始依赖配置合成
             log.info("开始合成-----");
             child_process.exec(`cd ${tsFile} &&  ffmpeg -i input.txt -acodec copy -vcodec copy -absf aac_adtstoasc ${resultFile}`,function(error, stdout, stderr){
@@ -50,7 +50,7 @@ module.exports = function(opt){
                     utils.stopWork();
                 }else{
                     console.error("合成成功--",stdout);
-                
+
                     //删除临时文件
                     fsextra.remove(tsFile, err => {
                         if (err) {
@@ -70,16 +70,16 @@ module.exports = function(opt){
             });
         }
     }
-     
+
     //下载 ts 文件
     function down(url){
         var p = url.split("?")[0];
         var nm = path.parse(p);
         var nme = nm["name"] + nm["ext"];
         rpath = path.join(tsFile,nme);
-         
+
         localPath.push(`file ${nme}`); //缓存本地路径，用来合成
-         
+
        try{
             request(url,{timeout:10000}, (err, response, body) => {
                 if (err ) {
@@ -91,9 +91,9 @@ module.exports = function(opt){
             log.err(`下载ts超时,跳过`);
         }
     }
-     
-     
- 
+
+
+
     //递归的创建文件夹
     function mkdirs(dirpath) {
         if (!fs.existsSync(path.dirname(dirpath))) {
@@ -101,7 +101,7 @@ module.exports = function(opt){
         }
         fs.mkdirSync(dirpath);
     }
-        
+
     function createDir(myPath){
         fs.existsSync(myPath) == false && mkdirs(myPath);
     }

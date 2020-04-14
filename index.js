@@ -1,8 +1,9 @@
 const control = require('./frame/control');
 
-const ts = 'ts';
-const push = 'push';
-const commandArgs = [ts,push];
+const ts    = 'ts';
+const push  = 'push';
+const valid = 'valid';
+const commandArgs = [ts,push,valid];
 
 process.on('uncaughtException', function (err) {
     //打印出错误
@@ -34,10 +35,16 @@ if(args && args.length > 0){
             //推送视频定时任务
             control.pushStartTimer();
         }
+        if(valid === arg){
+            //url检测器
+            control.startUrlCheckWork();
+        }
     })
 }else{
+    //如果未输入任何参数,则默认启动所有线程
     control.startDownloadTsTimer();
     control.pushStartTimer();
+    control.startUrlCheckWork();
 }
 control.refreshTokenTimer();
 

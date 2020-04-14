@@ -49,6 +49,28 @@ function getCurrentTime(){
     return new Date().toLocaleTimeString();
 }
 
+/**
+ * 检查网络地址是否合法
+ */
+function validUrlFormat(url){
+    let RegUrl = new RegExp();
+    RegUrl.compile('^((https|http){1}://)?[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$');
+    return RegUrl.test(url);
+}
+
+/**
+ * 线程睡眠
+ * @param second 睡眠时间 (秒)
+ * @returns {Promise<>}
+ */
+function sleep(second){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, second);
+    })
+}
+
 module.exports = {
     randomBytes:randomBytes,
     parserHost:parserHost,
@@ -56,6 +78,8 @@ module.exports = {
     stopWork:stopWork,
     getWorkStatus:getWorkStatus,
     getCurrentTime:getCurrentTime,
+    validUrlFormat:validUrlFormat,
+    sleep:sleep,
     headers:{
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
         'X-Requested-With': 'XMLHttpRequest'

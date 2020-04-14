@@ -1,5 +1,6 @@
 
 const request = require('request');
+const valid   = require('./tools/valid');
 
 function testUrl() {
 
@@ -21,4 +22,13 @@ function testUrl() {
 
 }
 
-testUrl();
+async function testValidUrl() {
+
+    let url = 'https://va4.godsold.com/3zb/zb1263SMD/index.m3u8?sign=4e56e85121cc3d4aef93c56c992adb68&t=1586768089';
+
+    let exist = await new valid(url).urlFormat();
+    console.log(exist);
+
+}
+
+testValidUrl();

@@ -47,6 +47,8 @@ class tokenManage{
          */
         await this.redis.del(Const._TOKEN_QUEUE);
 
+
+
         /**
          * 循环账号列表,模拟登陆获取token,缓存至redis
          */
@@ -79,6 +81,7 @@ class tokenManage{
                 account.nickName = userInfo.nickname;
 
                 this.redis.sadd(Const._TOKEN_QUEUE,JSON.stringify(account));
+
             },(error) => {
                 log.err(`Login failed. accountInfo:${JSON.stringify(account)} \n error:${error}`)
             })
