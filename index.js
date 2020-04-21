@@ -1,9 +1,11 @@
 const control = require('./frame/control');
 
-const ts    = 'ts';
-const push  = 'push';
-const valid = 'valid';
-const commandArgs = [ts,push,valid];
+const ts       = 'ts';
+const push     = 'push';
+const valid    = 'valid';
+const download = 'download';
+const parser   = 'parser';
+const commandArgs = [ts,push,valid,download,parser];
 
 process.on('uncaughtException', function (err) {
     //打印出错误
@@ -39,12 +41,22 @@ if(args && args.length > 0){
             //url检测器
             control.startUrlCheckWork();
         }
+        if(parser === arg){
+            //资源解析
+            control.startParserTsWork();
+        }
+        if(download === arg){
+            //视频下载
+            control.startDownloadMoviesWork();
+        }
     })
 }else{
     //如果未输入任何参数,则默认启动所有线程
     control.startDownloadTsTimer();
     control.pushStartTimer();
     control.startUrlCheckWork();
+    control.startParserTsWork();
+    control.startDownloadMoviesWork();
 }
 control.refreshTokenTimer();
 

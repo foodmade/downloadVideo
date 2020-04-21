@@ -33,8 +33,61 @@ class jedis{
     async sadd(key,value){
         if(!key || key === ''){
             logger.err(`Redis sadd key must not empty`);
+            return;
         }
-        this.jedisClient.saddAsync(key,value);
+        await this.jedisClient.saddAsync(key,value);
+    }
+
+    /**
+     * lpush value
+     * @param key
+     * @param value
+     * @returns {Promise<void>}
+     */
+    async lpush(key,value){
+        if(!key || key === ''){
+            logger.err(`Redis lpush key must not empty`);
+            return;
+        }
+        await this.jedisClient.lpushAsync(key,value);
+    }
+
+    /**
+     * 移除并且返回列表的第一个元素
+     * @param key
+     * @returns {Promise<null|*>}
+     */
+    async lpop(key){
+        if(!key || key === ''){
+            logger.err(`Redis lpop key must not empty`);
+            return null;
+        }
+        return await this.jedisClient.lpopAsync(key);
+    }
+    /**
+     * 移除并且返回列表的最后一个元素
+     * @param key
+     * @returns {Promise<null|*>}
+     */
+    async rpop(key){
+        if(!key || key === ''){
+            logger.err(`Redis rpop key must not empty`);
+            return null;
+        }
+        return await this.jedisClient.rpopAsync(key);
+    }
+
+    /**
+     * 获取列表长度
+     * @param key
+     * @returns {Promise<void>}
+     */
+    async llen(key){
+        if(!key || key === ''){
+            logger.err(`Redis llen key must not empty`);
+            return null;
+        }
+        return await this.jedisClient.llenAsync(key);
     }
 
     /**
@@ -111,6 +164,16 @@ class jedis{
      */
     async del(key){
         return this.jedisClient.delAsync(key);
+    }
+
+    /**
+     * 删除set集合中的元素
+     * @param val
+     * @param key
+     * @returns {Promise<void>}
+     */
+    async srem(key,val){
+        return this.jedisClient.sremAsync(key,val);
     }
 
 }

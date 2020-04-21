@@ -24,7 +24,7 @@ class valid{
         }
 
         let isExists = await urlExists(this.url);
-        log.info(`Url:${this.url} isExist:${isExists}`);
+        log.debug(`Url:${this.url} isExist:${isExists}`);
         return isExists;
     }
 

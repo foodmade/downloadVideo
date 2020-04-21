@@ -7,8 +7,6 @@ const tokenManage    = require('./manage/tokenManage');
 const workerFactory  = require('child_process');
 const path           = require('path');
 
-const workerPath     = path.join(__dirname, './manage/urlValidManage.js');
-
 const _PIPE_MSG_RUN_MSG  = 10000;
 const _PIPE_MSG_STOP_MSG = -10000;
 
@@ -38,7 +36,7 @@ module.exports = {
      */
     startDownloadTsTimer: function(){
         log.info(`Start download thread.`);
-        var THIS_MODULE = this;
+        let THIS_MODULE = this;
         setInterval(function(){
             THIS_MODULE.downloadWorkStart();
         },config.work.taskTimeElapse);
@@ -72,10 +70,42 @@ module.exports = {
     startUrlCheckWork: function(){
         log.info(`Start url valid check thread..`);
         let THIS_MODULE = this;
+
+        let workerPath = path.join(__dirname, './manage/urlValidManage.js');
+
         for (let i = 0; i < config.work.urlValidChildThreadCount; ++i){
-            THIS_MODULE._WORKERS.push(THIS_MODULE.activeWork(i));
+            THIS_MODULE._WORKERS.push(THIS_MODULE.activeWork(utils.randomBytes(8),workerPath));
         }
-        log.info(`Start worker count:[${THIS_MODULE._WORKERS.length}]`);
+        log.info(`Start invalid url worker count:[${THIS_MODULE._WORKERS.length}]`);
+    },
+
+    /**
+     * 开启m3u8视频解析线程
+     */
+    startParserTsWork: function(){
+        log.info(`Start m3u8 parser thread. thread count:[1]`);
+        let THIS_MODULE = this;
+
+        let workerPath = path.join(__dirname, './work.js');
+        for (let i = 0; i < 1; ++i){
+            THIS_MODULE._WORKERS.push(THIS_MODULE.activeWork(utils.randomBytes(8),workerPath));
+        }
+        log.info(`Start parser worker count:[${THIS_MODULE._WORKERS.length}]`);
+    },
+
+    /**
+     * 开启m3u8下载线程
+     */
+    startDownloadMoviesWork: function(){
+        let count = config.work.downloadThreadCount;
+        log.info(`Start m3u8 download thread.${count}`);
+        let THIS_MODULE = this;
+
+        let workerPath = path.join(__dirname, './task/downAndPush.js');
+        for (let i = 0; i < config.work.downloadThreadCount; ++i){
+            THIS_MODULE._WORKERS.push(THIS_MODULE.activeWork(utils.randomBytes(8),workerPath));
+        }
+        log.info(`Start download and push worker count:[${THIS_MODULE._WORKERS.length}]`);
     },
 
     /**
@@ -91,9 +121,10 @@ module.exports = {
     /**
      * 激活工作线程
      * @param wid
+     * @workerPath 文件路径
      * @returns {{process: workerFactory.fork, wid: *, time: number}}
      */
-    activeWork: function(wid){
+    activeWork: function(wid,workerPath){
         let THIS_MODULE = this;
         log.info(`Url check handler work [${wid}] ! path:[${workerPath}] `);
         let worker = {

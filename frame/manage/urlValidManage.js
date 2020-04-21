@@ -30,6 +30,14 @@ class urlValidManage{
         let isExist = await new valid(data.videoUrl).urlFormat();
         log.info(`Url:${data.videoUrl} status:${isExist}`);
         if(isExist){
+            //如果有效,加入待下载队列
+            let downloadOptions = {
+                playUrl:data.videoUrl,
+                title:data.videoName,
+                tags:data.tags
+            };
+            log.info(`add await download queue. info:${JSON.stringify(downloadOptions)}`);
+            await this.redis.sadd(Const._DOWNLOAD_QUEUE,JSON.stringify(downloadOptions));
             return;
         }
         //如果已经失效,放入失效队列,等待服务器删除对应资源

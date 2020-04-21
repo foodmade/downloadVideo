@@ -19,13 +19,15 @@ module.exports = {
         downloadIndexTimeElapse: 1000 * 20,
         //Url valid handler count.
         urlValidChildThreadCount: 5,
+        //Download ts thread count.
+        downloadThreadCount: 5,
         //Fetch download video task.
         taskReq:{
-            url:"http://task.crawler.com:8089/api/getDownloadTask"
+            url:"http://task.crawler.com:8086/api/getDownloadTask"
         },
         //Commit push task status.
         pushTask:{
-            url:"http://task.crawler.com:8089/api/commitTaskStatus"
+            url:"http://task.crawler.com:8086/api/commitTaskStatus"
         },
         //Login api.
         loginTask:{
@@ -73,6 +75,13 @@ module.exports = {
                     Accept:accept,
                     token:''
                 }
+            },
+            scp:{
+                file: '',
+                user: 'root',
+                host: '192.168.31.10',
+                port: '22',
+                path: '/data/context/'
             }
         }
     },

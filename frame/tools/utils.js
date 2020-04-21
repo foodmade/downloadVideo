@@ -1,5 +1,7 @@
 const crypto   = require('crypto');
 const log      = require('../config/log');
+const fs       = require('fs');
+const path     = require('path');
 
 /**
  * 获取随机数
@@ -54,7 +56,7 @@ function getCurrentTime(){
  */
 function validUrlFormat(url){
     let RegUrl = new RegExp();
-    RegUrl.compile('^((https|http){1}://)?[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$');
+    RegUrl.compile('((http|ftp|https)://)(([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_\\./-~-]*)?');
     return RegUrl.test(url);
 }
 
@@ -71,6 +73,26 @@ function sleep(second){
     })
 }
 
+/**
+ * 递归的创建文件夹
+ * @param dirpath
+ */
+function mkdirs(dirpath) {
+    if (!fs.existsSync(path.dirname(dirpath))) {
+        log.info(`Create dir:${dirpath}`);
+        mkdirs(path.dirname(dirpath));
+    }
+    fs.mkdirSync(dirpath);
+}
+
+/**
+ * 创建文件夹
+ * @param myPath
+ */
+function createDir(myPath){
+    fs.existsSync(myPath) === false && mkdirs(myPath);
+}
+
 module.exports = {
     randomBytes:randomBytes,
     parserHost:parserHost,
@@ -79,6 +101,8 @@ module.exports = {
     getWorkStatus:getWorkStatus,
     getCurrentTime:getCurrentTime,
     validUrlFormat:validUrlFormat,
+    mkdirs:mkdirs,
+    createDir:createDir,
     sleep:sleep,
     headers:{
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
