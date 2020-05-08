@@ -162,7 +162,7 @@ class source {
         //从任务池中获取一个ts任务
         let ts = await this.redis.rpop(source.buildTsPoolKey(fileName));
         if(!ts){
-            log.err(`FileName${fileName} ts pool is empty.`);
+            log.err(`FileName:[${fileName}] ts pool is empty.`);
             //如果任务已经下载完毕,清除token
             this.delToken(token);
             return {};
@@ -228,9 +228,10 @@ class source {
             log.err(`Invalid task basis options.--> ${basisOptions}`);
             return false
         }
-        let isOk = basisOptions.finishCnt >= basisOptions.length;
+        basisOptions = JSON.parse(basisOptions);
+        let isOk = (basisOptions.remainCnt !== 0);
+        log.info(`Download task processing -- ${basisOptions.remainCnt}/${basisOptions.length}`);
         if(!isOk){
-            log.info(`Download task processing -- ${basisOptions.finishCnt}/${basisOptions.length}`);
             return isOk;
         }
         return true;

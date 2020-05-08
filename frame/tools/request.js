@@ -28,7 +28,7 @@ module.exports = {
             if(!error && response.statusCode === 200){
                 logger.info(`Method:[GET] . Status:[Successful]. rspBody:${body}`);
             }else{
-                logger.warn(`Method:[GET]. Status:[Failed]. exMsg:${err}`);
+                logger.warn(`Method:[GET]. Status:[Failed]. exMsg:${error}`);
             }
         })
     },

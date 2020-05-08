@@ -13,13 +13,14 @@ class cmdHandler{
     constructor() {
         if(!cmdHandler.single){
             log.info(`constructor cmdHandler`);
+            let options = config.push.options.scp;
             this._PROCESS_CMD = {
                 //检查远程服务器是否存在文件夹或者文件,不存在则创建
-                checkAndCreateDirCmd:`sh ${scriptPath} ${config.push.options.scp.host} ${config.push.options.scp.path}${sign}`,
+                checkAndCreateDirCmd:`sh ${scriptPath} ${options.host} ${options.path}${sign}`,
                 //scp拷贝文件至远程服务器
-                scpCmd:`scp -P ${config.push.options.scp.port} ${sign} root@${config.push.options.scp.host}:${config.push.options.scp.path}$2`,
+                scpCmd:`scp -P ${options.port} ${sign} root@${options.host}:${options.path}$2`,
                 //远程创建目录
-                createCmd:`ssh -p ${config.push.options.scp.port} root@${config.push.options.scp.host} \`mkdir ${config.push.options.scp.path}${sign}\``
+                createCmd:`ssh -p ${options.port} root@${options.host} \`mkdir ${options.path}${sign}\``
             };
             cmdHandler.single = this;
         }

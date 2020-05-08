@@ -20,7 +20,7 @@ module.exports = {
         //Url valid handler count.
         urlValidChildThreadCount: 5,
         //Download ts thread count.
-        downloadThreadCount: 5,
+        downloadThreadCount: 2,
         //Fetch download video task.
         taskReq:{
             url:"http://task.crawler.com:8086/api/getDownloadTask"
@@ -89,8 +89,8 @@ module.exports = {
         level:_LOG_LEVEL_INFO
     },
     redis:{
-        host:'127.0.0.1',
-        port:6379,
+        host:'192.168.31.10',
+        port:6378,
         options:{
             db:0,
             auth_pass:''

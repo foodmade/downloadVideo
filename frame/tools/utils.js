@@ -61,6 +61,26 @@ function validUrlFormat(url){
 }
 
 /**
+ * 提取url中ts文件名称
+ */
+function extractTsPath(url) {
+    if(!url){
+        return '';
+    }
+    let reg = /\/.*?\.ts/gi;
+    let sourceArr = url.match(reg);
+    if(!sourceArr || sourceArr.length === 0){
+        return '';
+    }
+    let source = sourceArr[0];
+    sourceArr = source.split('/');
+    if(sourceArr.length === 0){
+        return '';
+    }
+    return sourceArr[sourceArr.length - 1];
+}
+
+/**
  * 线程睡眠
  * @param second 睡眠时间 (秒)
  * @returns {Promise<>}
@@ -93,6 +113,24 @@ function createDir(myPath){
     fs.existsSync(myPath) === false && mkdirs(myPath);
 }
 
+/**
+ * 解析全地址的ts文件名称
+ */
+function parserTsNameByM3u8(tsArr){
+    if(!tsArr || tsArr.length === 0){
+        return undefined;
+    }
+    let resArr = [];
+    for (let ts of tsArr){
+        let tsName = extractTsPath(ts);
+        if(!tsName || '' === tsName){
+            continue;
+        }
+        resArr.push(tsName);
+    }
+    return resArr;
+}
+
 module.exports = {
     randomBytes:randomBytes,
     parserHost:parserHost,
@@ -104,6 +142,8 @@ module.exports = {
     mkdirs:mkdirs,
     createDir:createDir,
     sleep:sleep,
+    extractTsPath:extractTsPath,
+    parserTsNameByM3u8:parserTsNameByM3u8,
     headers:{
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
         'X-Requested-With': 'XMLHttpRequest'

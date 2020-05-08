@@ -5,6 +5,10 @@ const valid   = require('./tools/valid');
 const http    = require('http');
 const https    = require('https');
 const cmd     = require('./tools/cmdHandler');
+const ejsUtil      =require('./tools/ejsUtil');
+const path     = require('path');
+const fileUtil  = require('./tools/fileUtils');
+const utils     = require('./tools/utils');
 
 function testUrl() {
 
@@ -90,4 +94,20 @@ function testCmd() {
     })
 }
 
-testCmd();
+
+async function testEjs(){
+    let path = await ejsUtil.generateM3u8Index(['111.ts','222.ts'],utils.randomBytes(10));
+    console.log(path);
+}
+
+function testM3u8(){
+    let res = utils.extractTsPath('https://p.gxmy66.com/user/2d165751bd4f67d56ed847c32d34c/165751816bd4f67d56ed847c32d34c_000.ts?auth_key=1588990973-0-0-a83186391832ee062e191efb5cd9');
+    console.log(res);
+}
+
+function testFile() {
+    let data = 'Xiaoming';
+    fileUtil.writeFileAsync(path.join(__dirname,'./111.m3u8'),data);
+    console.log(`Write file success`);
+}
+testM3u8();

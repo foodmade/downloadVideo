@@ -34,7 +34,11 @@ class downAndPush {
             //生成下载任务临时目录
             utils.createDir(tmpDir);
 
-            let filePath = path.join(tmpDir,downloadOpt.ts);
+            let tsUrl = downloadOpt.ts;
+            if(utils.validUrlFormat(tsUrl)){
+                tsUrl = utils.extractTsPath(tsUrl);
+            }
+            let filePath = path.join(tmpDir,tsUrl);
             //下载文件
             this.down(downloadOpt,filePath)
                 .then(async (options,) => {

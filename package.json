@@ -5,6 +5,7 @@
     "bluebird": "^3.7.2",
     "child_process": "^1.0.2",
     "crypto": "^1.0.1",
+    "ejs": "^3.1.2",
     "es6-promise": "^4.2.8",
     "ffmpeg": "0.0.4",
     "fs": "0.0.1-security",
